@@ -19,33 +19,15 @@ public class GuessWhen extends MiniGame {
 
     private GoodTimer timer;
 
-    private final OnTimerListener onTimerListener = new OnTimerListener() {
+    private int i = 0;
+    private int time = (int) Math.round((Math.random() * 6)) + 5;
+    private int max = time;
 
-	int i = 0;
-	int time = (int) Math.round((Math.random() * 6)) + 5;
-	int max = time;
+    private final OnTimerListener onTimerListener = new OnTimerListener() {
 
 	@Override
 	public void onTimer() {
-
-	    time--;
-
-	    if (time > (max / 2) - 1) {
-		mTextViews.setText("" + time);
-	    } else {
-		mTextViews.setText("?");
-		if (getPrepare()) {
-		    setPrepare(false);
-		}
-	    }
-	    if (time == 0) {
-		setCorrectness(true);
-	    }
-	    if (time == -1) {
-		showStats();
-		timer.stop();
-	    }
-
+	    calc();
 	}
     };
 
@@ -81,6 +63,26 @@ public class GuessWhen extends MiniGame {
     @Override
     public CharSequence getDescription() {
 	return "Guess when it is";
+    }
+
+    private void calc() {
+	time--;
+
+	if (time > (max / 2) - 1) {
+	    mTextViews.setText("" + time);
+	} else {
+	    mTextViews.setText("?");
+	    if (getPrepare()) {
+		setPrepare(false);
+	    }
+	}
+	if (time == 0) {
+	    setCorrectness(true);
+	}
+	if (time == -1) {
+	    showStats();
+	    timer.stop();
+	}
     }
 
 }

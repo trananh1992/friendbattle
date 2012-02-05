@@ -19,6 +19,7 @@ import de.passsy.friendbattle.data.Player;
 import de.passsy.friendbattle.games.MiniGame.Correctness;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
+import de.passsy.friendbattle.utility.Tools;
 
 public class Buzzer extends RelativeLayout {
 
@@ -39,45 +40,6 @@ public class Buzzer extends RelativeLayout {
 
     private int mPreviousY;
 
-    private OnTouchListener normalOnTouchListener = new OnTouchListener() {
-
-	@Override
-	public boolean onTouch(final View v, final MotionEvent event) {
-	    int num = event.getPointerCount();
-	    for (int a = 0; a < num; a++) {
-		int x = (int) event.getX(event.getPointerId(a));
-		int y = (int) event.getY(event.getPointerId(a));
-		// Log.d("tag", "pointer_" + event.getPointerId(a) +
-		// ": x = " + x + ", y = " + y);
-	    }
-
-	    final int action = event.getAction();
-	    switch (action) {
-	    case MotionEvent.ACTION_DOWN:
-		mPreviousY = (int) event.getY();
-
-		if (mBuzzListener != null && mPlayer != null) {
-		    showGuessState(mBuzzListener.onBuzz(Buzzer.this));
-
-		}
-		break;
-
-	    case MotionEvent.ACTION_MOVE:
-		onMove(event);
-		break;
-
-	    case MotionEvent.ACTION_UP:
-		mBackground.setImageResource(R.drawable.buzzerupdown);
-
-	    case MotionEvent.ACTION_CANCEL:
-		break;
-
-	    }
-	    return true;
-	}
-
-    };
-
     public Buzzer(final Context context) {
 	super(context);
 	init(context);
@@ -94,8 +56,33 @@ public class Buzzer extends RelativeLayout {
 	LayoutInflater.from(context).inflate(R.layout.buzzer, this, true);
 	findViews();
 	setRandomColor();
-	setOnTouchListener(normalOnTouchListener);
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+	final int action = event.getAction();
+	switch (action) {
+	case MotionEvent.ACTION_DOWN:
+	    mPreviousY = (int) event.getY();
+
+	    if (mBuzzListener != null && mPlayer != null) {
+		showGuessState(mBuzzListener.onBuzz(Buzzer.this));
+
+	    }
+	    break;
+
+	case MotionEvent.ACTION_MOVE:
+	    onMove(event);
+	    break;
+
+	case MotionEvent.ACTION_UP:
+	    mBackground.setImageResource(R.drawable.buzzerupdown);
+
+	case MotionEvent.ACTION_CANCEL:
+	    break;
+
+	}
+	return true;
     }
 
     private void setRandomColor() {
@@ -173,13 +160,16 @@ public class Buzzer extends RelativeLayout {
      * @param context
      * @param attrs
      */
-    private void analyseAttributes(final Context context, final AttributeSet attrs) {
+    private void analyseAttributes(final Context context,
+	    final AttributeSet attrs) {
 
 	if (attrs != null) {
 
-	    final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Buzzer);
+	    final TypedArray attributes = context.obtainStyledAttributes(attrs,
+		    R.styleable.Buzzer);
 
-	    final boolean flipped = attributes.getBoolean(R.styleable.Buzzer_flipped, false);
+	    final boolean flipped = attributes.getBoolean(
+		    R.styleable.Buzzer_flipped, false);
 	    if (flipped) {
 		mFlipped = true;
 	    }
@@ -301,21 +291,15 @@ public class Buzzer extends RelativeLayout {
     public void freeze(boolean b) {
 	if (b) {
 	    mBackground.setImageResource(R.drawable.buzzerdownup_gray);
-	    setOnTouchListener(new OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-		    return false;
-		}
-	    });
 	} else {
 	    mBackground.setImageResource(R.drawable.buzzerdownup);
-	    setOnTouchListener(normalOnTouchListener);
 	}
 
     }
 
     public void showGuessState(Correctness correctness) {
+
+	Tools.toast(correctness.toString());
 
 	int colorImage;
 	switch (correctness) {

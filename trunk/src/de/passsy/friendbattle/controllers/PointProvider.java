@@ -15,8 +15,8 @@ public abstract class PointProvider {
 	mMiniGame = miniGame;
     }
 
-    public Correctness evalCorrectness(Boolean correctness, Player player) {
-	if (correctness) {
+    public Correctness evalCorrectness(Boolean gameCorrectness, Player player) {
+	if (gameCorrectness) {
 	    showResults();
 	}
 	return Correctness.unclear;

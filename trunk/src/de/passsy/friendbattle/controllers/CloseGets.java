@@ -26,8 +26,8 @@ public class CloseGets extends PointProvider {
     private long mCorrectTime;
 
     @Override
-    public Correctness evalCorrectness(Boolean correctness, Player player) {
-	super.evalCorrectness(correctness, player);
+    public Correctness evalCorrectness(Boolean gameCorrectness, Player player) {
+	super.evalCorrectness(gameCorrectness, player);
 	mGuesses.put(System.currentTimeMillis(), player);
 	return Correctness.unclear;
     }
@@ -78,11 +78,6 @@ public class CloseGets extends PointProvider {
 	    player.getBuzzer().showGuessState(Correctness.correct);
 	    player.setPoints(player.getPoints() + 1);
 	}
-    }
-
-    @Override
-    public void showResults() {
-	super.showResults();
     }
 
     public void setDelta(int mDelta) {

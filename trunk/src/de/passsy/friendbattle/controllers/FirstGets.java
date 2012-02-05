@@ -14,19 +14,21 @@ public class FirstGets extends PointProvider {
     private Boolean mSolved = false;
 
     @Override
-    public Correctness evalCorrectness(final Boolean correctness, final Player player) {
+    public Correctness evalCorrectness(final Boolean gameCorrectness,
+	    final Player player) {
 	Correctness result = Correctness.incorrect;
 
 	if (mMiniGame.getPrepare()) {
 	    return Correctness.tooearly;
 	}
 
-	if (correctness) {
+	if (gameCorrectness) {
 	    // Game is correct
 	    if (!mSolved) {
 		// First who guessed correct
 		// Points++
 		result = Correctness.correct;
+		showResults();
 	    } else {
 		// Player was to late, someone else was faster
 		// Points don't change
@@ -45,15 +47,8 @@ public class FirstGets extends PointProvider {
 	    }
 	}
 
-	showResults();
-
 	return result;
 
-    }
-
-    @Override
-    public void showResults() {
-	super.showResults();
     }
 
 }

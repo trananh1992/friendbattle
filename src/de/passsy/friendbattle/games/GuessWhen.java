@@ -1,7 +1,5 @@
 package de.passsy.friendbattle.games;
 
-import java.util.Timer;
-
 import android.content.Context;
 import android.os.Handler;
 import de.passsy.friendbattle.controllers.CloseGets;
@@ -12,8 +10,6 @@ import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
 public class GuessWhen extends MiniGame {
 
     private final Screen_TextViewsCenter mTextViews;
-
-    Timer mTimer = new Timer();
 
     private final Handler mHandler = new Handler();
 

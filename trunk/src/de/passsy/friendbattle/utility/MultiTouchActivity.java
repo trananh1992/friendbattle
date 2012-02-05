@@ -26,7 +26,8 @@ public class MultiTouchActivity extends Activity implements OnTouchListener {
 	this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	// run in fullscreenmode
 	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	this.getWindow().clearFlags(
+		WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 	parent = findViewById(android.R.id.content).getRootView();
 	parent.setOnTouchListener(this);
     }
@@ -56,11 +57,11 @@ public class MultiTouchActivity extends Activity implements OnTouchListener {
 		dealEvent(actionPointerIndex, event, v, actionResolved);
 	    }
 	}
-	return false;
+	return true;
     }
 
-    private void dealEvent(int actionPointerIndex, MotionEvent event, View eventView,
-	    int actionresolved) {
+    private void dealEvent(int actionPointerIndex, MotionEvent event,
+	    View eventView, int actionresolved) {
 	int rawX, rawY;
 	int location[] = { 0, 0 };
 	eventView.getLocationOnScreen(location);
@@ -83,10 +84,12 @@ public class MultiTouchActivity extends Activity implements OnTouchListener {
 	     * event.getMetaState()));
 	     */
 	    // MotionEvent me = MotionEvent.obtain(event);
-	    MotionEvent me = MotionEvent.obtain(event.getDownTime(), event.getEventTime(),
-		    actionresolved, x, y, event.getPressure(actionPointerIndex),
-		    event.getPressure(actionPointerIndex), event.getMetaState(),
-		    event.getXPrecision(), event.getYPrecision(), event.getDeviceId(),
+	    MotionEvent me = MotionEvent.obtain(event.getDownTime(),
+		    event.getEventTime(), actionresolved, x, y,
+		    event.getPressure(actionPointerIndex),
+		    event.getPressure(actionPointerIndex),
+		    event.getMetaState(), event.getXPrecision(),
+		    event.getYPrecision(), event.getDeviceId(),
 		    event.getEdgeFlags());
 	    me.setLocation(x, y);
 
@@ -107,8 +110,10 @@ public class MultiTouchActivity extends Activity implements OnTouchListener {
 	    }
 
 	    if (actionresolved == MotionEvent.ACTION_MOVE) {
-		Log.v("tag", "#" + actionPointerIndex + "Rawx:" + rawX + " rawy:" + rawY + "x:" + x
-			+ " y:" + y + " " + view.toString());
+		Log.v("tag",
+			"#" + actionPointerIndex + "Rawx:" + rawX + " rawy:"
+				+ rawY + "x:" + x + " y:" + y + " "
+				+ view.toString());
 	    }
 	}
 
@@ -143,7 +148,8 @@ public class MultiTouchActivity extends Activity implements OnTouchListener {
 
 		if (((view.getHeight() + location[1] + moveGap >= y)
 			& (view.getWidth() + location[0] + moveGap >= x)
-			& (view.getLeft() - moveGap <= x) & (view.getTop() - moveGap <= y))
+			& (view.getLeft() - moveGap <= x) & (view.getTop()
+			- moveGap <= y))
 			|| view instanceof FrameLayout) {
 
 		    touchedViews.add(view);

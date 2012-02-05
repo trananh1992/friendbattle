@@ -116,12 +116,6 @@ public class Buzzer extends RelativeLayout {
 	mColorView = findViewById(R.id.color_view);
     }
 
-    public void onBuzz(final View v) {
-	if (mBuzzListener != null) {
-	    mBuzzListener.onBuzz(this);
-	}
-    }
-
     /**
      * sets the Color of the
      * 

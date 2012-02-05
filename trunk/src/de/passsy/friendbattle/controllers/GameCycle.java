@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import de.passsy.friendbattle.games.ClickWhenWhite;
-import de.passsy.friendbattle.games.GuessWhen;
 import de.passsy.friendbattle.games.MiniGame;
 import de.passsy.friendbattle.games.MiniGame.OnNextGameListener;
 import de.passsy.friendbattle.games.NoGame;
@@ -20,7 +19,8 @@ public class GameCycle {
     }
 
     public interface OnNewGameListener {
-	public abstract void onNewGame(CharSequence name, CharSequence description);
+	public abstract void onNewGame(CharSequence name,
+		CharSequence description);
     }
 
     private final List<Class<? extends MiniGame>> mMiniGames = new ArrayList<Class<? extends MiniGame>>();
@@ -50,7 +50,8 @@ public class GameCycle {
 
     private final Context mContext;
 
-    public GameCycle(final Context context, final FrameLayout rootLayout, final int rounds) {
+    public GameCycle(final Context context, final FrameLayout rootLayout,
+	    final int rounds) {
 	mContext = context;
 	mRootLayout = rootLayout;
 	mRounds = rounds;
@@ -67,7 +68,8 @@ public class GameCycle {
 	try {
 	    // Creates a new Instance of the next Game an passes the Context as
 	    // parameter
-	    mCurrentGame = nextGame.getConstructor(Context.class).newInstance(mContext);
+	    mCurrentGame = nextGame.getConstructor(Context.class).newInstance(
+		    mContext);
 	} catch (final Exception e) {
 	    Log.e("FriendBattle", "ClassNotFound");
 	    e.printStackTrace();// Game isn't correct
@@ -99,7 +101,8 @@ public class GameCycle {
 	    end();
 	    return null;
 	} else {
-	    final Class<? extends MiniGame> nextGame = mMiniGames.get(mGameNumber);
+	    final Class<? extends MiniGame> nextGame = mMiniGames
+		    .get(mGameNumber);
 	    mCurrentRounds++;
 	    if (mCurrentRounds >= mRounds) {
 		mGameNumber++;
@@ -131,7 +134,7 @@ public class GameCycle {
 
     private void loadGames() {
 
-	mMiniGames.add(GuessWhen.class);
+	// mMiniGames.add(GuessWhen.class);
 	mMiniGames.add(ClickWhenWhite.class);
 
     }

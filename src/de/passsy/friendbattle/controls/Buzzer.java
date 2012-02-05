@@ -38,6 +38,7 @@ public class Buzzer extends RelativeLayout {
     private Boolean mAllowUserChangeColor = true;
 
     private int mPreviousY;
+    private GoodTimer mCorrectStateTimer = new GoodTimer(1000, false);
 
     public Buzzer(final Context context) {
 	super(context);
@@ -75,7 +76,9 @@ public class Buzzer extends RelativeLayout {
 	    break;
 
 	case MotionEvent.ACTION_UP:
-	    mBackground.setImageResource(R.drawable.buzzerupdown);
+	    if (!mCorrectStateTimer.isRunning()) {
+		changeToNormalState();
+	    }
 
 	case MotionEvent.ACTION_CANCEL:
 	    break;
@@ -307,15 +310,18 @@ public class Buzzer extends RelativeLayout {
 	}
 
 	mBackground.setImageResource(colorImage);
-	GoodTimer timer = new GoodTimer(1000, false);
-	timer.setOnTimerListener(new OnTimerListener() {
 
-	    @Override
-	    public void onTimer() {
-		changeToNormalState();
-	    }
-	});
-	timer.start();
+	if (correctness == Correctness.correct) {
+	    mCorrectStateTimer.setOnTimerListener(new OnTimerListener() {
+
+		@Override
+		public void onTimer() {
+		    changeToNormalState();
+		}
+	    });
+	    mCorrectStateTimer.start();
+	}
+
     }
 
     public void changeToNormalState() {

@@ -51,8 +51,8 @@ public class GoodTimer {
 	}
 
 	if (mRepeat) {
-	    try {
 
+	    try {
 		mTimer.schedule(new TimerTask() {
 
 		    @Override
@@ -66,14 +66,18 @@ public class GoodTimer {
 		e.printStackTrace();
 	    }
 	} else {
-	    mTimer.schedule(new TimerTask() {
+	    try {
+		mTimer.schedule(new TimerTask() {
 
-		@Override
-		public void run() {
-		    mRunning = true;
-		    mHandler.post(timeoutRunnable);
-		}
-	    }, mTimeout);
+		    @Override
+		    public void run() {
+			mRunning = true;
+			mHandler.post(timeoutRunnable);
+		    }
+		}, mTimeout);
+	    } catch (final Exception e) {
+		e.printStackTrace();
+	    }
 	}
 
     }
@@ -127,6 +131,10 @@ public class GoodTimer {
 
     public void setOnTimerListener(final OnTimerListener l) {
 	mTimerListener = l;
+    }
+
+    public boolean isRunning() {
+	return mRunning;
     }
 
 }

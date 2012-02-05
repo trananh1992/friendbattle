@@ -19,7 +19,6 @@ import de.passsy.friendbattle.data.Player;
 import de.passsy.friendbattle.games.MiniGame.Correctness;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
-import de.passsy.friendbattle.utility.Tools;
 
 public class Buzzer extends RelativeLayout {
 
@@ -292,8 +291,6 @@ public class Buzzer extends RelativeLayout {
     }
 
     public void showGuessState(Correctness correctness) {
-
-	Tools.toast(correctness.toString());
 
 	int colorImage;
 	switch (correctness) {

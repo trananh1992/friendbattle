@@ -73,19 +73,20 @@ public class GameMenu extends MultiTouchActivity {
 	    }
 
 	    @Override
-	    public void onProgressChanged(final SeekBar seekBar, final int progress,
-		    final boolean fromUser) {
+	    public void onProgressChanged(final SeekBar seekBar,
+		    final int progress, final boolean fromUser) {
 		setPlayers(seekBar.getProgress() + 2);
 	    }
 	});
 
 	for (int i = 0; i < 6; i++) {
 	    final String buzzerID = "buzzer" + i;
-	    final Buzzer buzzer = (Buzzer) findViewById(getResources().getIdentifier(buzzerID,
-		    "id", "de.passsy.friendbattle"));
+	    final Buzzer buzzer = (Buzzer) findViewById(getResources()
+		    .getIdentifier(buzzerID, "id", "de.passsy.friendbattle"));
 	    mBuzzer.add(buzzer);
 	    buzzer.setText("Player " + (i + 1));
 	    buzzer.setOnTouchListener(this);
+	    addMoveOutsideEnabledViews(buzzer);
 	}
 
     }
@@ -94,8 +95,11 @@ public class GameMenu extends MultiTouchActivity {
 	final SharedPreferences settings = getSharedPreferences(GAME_PREF, 0);
 	// if the Game Version is different run a firstStart();
 	if (settings.getString("version", null) == mGameVersion) {
-	    Log.v("tag", settings.getString("version", "null") + " =? " + mGameVersion);
-	    Log.v("tag", mGameVersion.equals(settings.getString("version", "null")) + "");
+	    Log.v("tag", settings.getString("version", "null") + " =? "
+		    + mGameVersion);
+	    Log.v("tag",
+		    mGameVersion.equals(settings.getString("version", "null"))
+			    + "");
 	    getGames();
 	    firstStart();
 	}

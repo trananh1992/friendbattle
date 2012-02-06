@@ -54,6 +54,9 @@ public class FriendBattleGame extends MultiTouchActivity {
 	mGameCycle.start();
     }
 
+    /**
+     * restarts the Game with the same settings
+     */
     public void restart() {
 	loadGames();
 	for (final Player player : mPlayers) {
@@ -62,6 +65,9 @@ public class FriendBattleGame extends MultiTouchActivity {
 	mGameCycle.start();
     }
 
+    /**
+     * sets the listeners for the Buzzers
+     */
     private void createListeners() {
 	for (final Buzzer buzzer : mBuzzer) {
 	    buzzer.setOnTouchListener(this);
@@ -69,8 +75,8 @@ public class FriendBattleGame extends MultiTouchActivity {
 
 		@Override
 		public Correctness onBuzz(final Buzzer btn) {
-		    final MiniGame.Correctness correctness = mGameCycle.getCurrentGame().onGuess(
-			    btn.getPlayer());
+		    final MiniGame.Correctness correctness = mGameCycle
+			    .getCurrentGame().onGuess(btn.getPlayer());
 		    dealPoints(correctness, btn.getPlayer());
 		    return correctness;
 		}
@@ -79,6 +85,13 @@ public class FriendBattleGame extends MultiTouchActivity {
 
     }
 
+    /**
+     * deals the Points the the Player
+     * 
+     * @param correctness
+     * @param player
+     */
+    // TODO here or in PointProvider?
     protected void dealPoints(final Correctness correctness, final Player player) {
 	switch (correctness) {
 	case correct:
@@ -112,8 +125,8 @@ public class FriendBattleGame extends MultiTouchActivity {
 	// find Buzzers
 	for (int i = 0; i < MAX_PLAYERS; i++) {
 	    final String buzzerID = "buzzer" + i;
-	    final Buzzer buzzer = (Buzzer) findViewById(getResources().getIdentifier(buzzerID,
-		    "id", "de.passsy.friendbattle"));
+	    final Buzzer buzzer = (Buzzer) findViewById(getResources()
+		    .getIdentifier(buzzerID, "id", "de.passsy.friendbattle"));
 	    mBuzzer.add(buzzer);
 	}
 	mGameModule = (FrameLayout) findViewById(R.id.gamemodule);
@@ -161,8 +174,12 @@ public class FriendBattleGame extends MultiTouchActivity {
 
     }
 
+    /**
+     * Loads the Games
+     */
     private void loadGames() {
-	mGameCycle = new GameCycle(getApplicationContext(), mGameModule, mRounds);
+	mGameCycle = new GameCycle(getApplicationContext(), mGameModule,
+		mRounds);
 	mGameCycle.setonEndListener(new OnEndListener() {
 
 	    @Override
@@ -173,24 +190,37 @@ public class FriendBattleGame extends MultiTouchActivity {
 	mGameCycle.setOnNewGameListener(new OnNewGameListener() {
 
 	    @Override
-	    public void onNewGame(final CharSequence name, final CharSequence description) {
+	    public void onNewGame(final CharSequence name,
+		    final CharSequence description) {
 		setDescription(description);
 	    }
 	});
     }
 
+    /**
+     * shows the Winner
+     */
     protected void showResults() {
+	// TODO update Winner screen
 	mGameModule.addView(mWinnerScreen);
 	// mWinnerScreen.setWinner(getWinner());
 	setText("Player" + getWinner() + " won the Game");
     }
 
+    // TODO merge setText and setDescription.
     private void setText(final CharSequence text) {
 	mTop_txt.setText(text);
 	mBot_txt.setText(text);
     }
 
+    /**
+     * calculates the Winner of the Game
+     * 
+     * @return Winner
+     */
     private int getWinner() {
+
+	// TODO return Player as a List of Players
 	Player winner = new Player(-1);
 	for (final Player player : mPlayers) {
 

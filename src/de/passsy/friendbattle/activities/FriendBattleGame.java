@@ -183,8 +183,8 @@ public class FriendBattleGame extends MultiTouchActivity {
 	mGameCycle.setonEndListener(new OnEndListener() {
 
 	    @Override
-	    public void onEnd(final GameCycle cycle) {
-		showResults();
+	    public void onEnd() {
+		showGameResults();
 	    }
 	});
 	mGameCycle.setOnNewGameListener(new OnNewGameListener() {
@@ -198,9 +198,9 @@ public class FriendBattleGame extends MultiTouchActivity {
     }
 
     /**
-     * shows the Winner
+     * shows the Winner and the Points of all Players
      */
-    protected void showResults() {
+    protected void showGameResults() {
 	// TODO update Winner screen
 	mGameModule.addView(mWinnerScreen);
 	// mWinnerScreen.setWinner(getWinner());

@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import de.passsy.friendbattle.games.ClickWhenWhite;
+import de.passsy.friendbattle.games.GuessWhen;
+import de.passsy.friendbattle.games.MathGame;
 import de.passsy.friendbattle.games.MiniGame;
 import de.passsy.friendbattle.games.MiniGame.OnNextGameListener;
 import de.passsy.friendbattle.games.NoGame;
@@ -134,7 +136,8 @@ public class GameCycle {
 
     private void loadGames() {
 
-	// mMiniGames.add(GuessWhen.class);
+	mMiniGames.add(MathGame.class);
+	mMiniGames.add(GuessWhen.class);
 	mMiniGames.add(ClickWhenWhite.class);
 
     }

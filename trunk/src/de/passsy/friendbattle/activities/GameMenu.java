@@ -22,7 +22,7 @@ public class GameMenu extends MultiTouchActivity {
 
     public final static String GAME_PREF = "GamePreferences";
     private int mPlayers = 6;
-    private final int mRounds = 3;
+    private final int mRounds = 1;
 
     private final String mGameVersion = "0.01";
 

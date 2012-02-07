@@ -17,7 +17,7 @@ import de.passsy.friendbattle.games.NoGame;
 public class GameCycle {
 
     public interface OnEndListener {
-	public abstract void onEnd(GameCycle cycle);
+	public abstract void onEnd();
     }
 
     public interface OnNewGameListener {
@@ -116,7 +116,7 @@ public class GameCycle {
 
     public void onEnd(final View v) {
 	if (mEndListener != null) {
-	    mEndListener.onEnd(this);
+	    mEndListener.onEnd();
 	}
     }
 
@@ -130,7 +130,10 @@ public class GameCycle {
 
     private void end() {
 	mRootLayout.removeAllViews();
-	mEndListener.onEnd(this);
+	// remove reference to the current game
+	// stops all timers of the Game
+	mCurrentGame = null;
+	mEndListener.onEnd();
 
     }
 

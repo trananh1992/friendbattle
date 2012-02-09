@@ -8,7 +8,7 @@
 	<LinearLayout
 		android:id="@+id/topbuzzer"
 		android:layout_width="match_parent"
-		android:layout_height="100dp"
+		android:layout_height="200dp"
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true" >
 
@@ -62,7 +62,7 @@
 	<LinearLayout
 		android:id="@+id/botbuzzer"
 		android:layout_width="wrap_content"
-		android:layout_height="100dp"
+		android:layout_height="200dp"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentLeft="true" >
 

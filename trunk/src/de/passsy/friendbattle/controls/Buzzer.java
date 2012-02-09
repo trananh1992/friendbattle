@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,8 @@ import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
 
 public class Buzzer extends RelativeLayout {
+
+    private static int BUZZER_FREEZE_TIME = 1000;
 
     public interface OnBuzzListener {
 	public abstract Correctness onBuzz(Buzzer btn);
@@ -38,7 +41,9 @@ public class Buzzer extends RelativeLayout {
     private Boolean mAllowUserChangeColor = true;
 
     private int mPreviousY;
-    private GoodTimer mCorrectStateTimer = new GoodTimer(1000, false);
+    private GoodTimer mStateTimer = new GoodTimer(BUZZER_FREEZE_TIME, false);
+
+    private boolean mFreezed = false;
 
     public Buzzer(final Context context) {
 	super(context);
@@ -60,29 +65,31 @@ public class Buzzer extends RelativeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-	final int action = event.getAction();
-	switch (action) {
-	case MotionEvent.ACTION_DOWN:
-	    mPreviousY = (int) event.getY();
+	if (!mFreezed) {
+	    final int action = event.getAction();
+	    switch (action) {
+	    case MotionEvent.ACTION_DOWN:
+		mPreviousY = (int) event.getY();
 
-	    if (mBuzzListener != null && mPlayer != null) {
-		showGuessState(mBuzzListener.onBuzz(Buzzer.this));
+		if (mBuzzListener != null && mPlayer != null) {
+		    showGuessState(mBuzzListener.onBuzz(Buzzer.this));
+
+		}
+		break;
+
+	    case MotionEvent.ACTION_MOVE:
+		onMove(event);
+		break;
+
+	    case MotionEvent.ACTION_UP:
+		if (!mStateTimer.isRunning()) {
+		    changeToNormalState();
+		}
+
+	    case MotionEvent.ACTION_CANCEL:
+		break;
 
 	    }
-	    break;
-
-	case MotionEvent.ACTION_MOVE:
-	    onMove(event);
-	    break;
-
-	case MotionEvent.ACTION_UP:
-	    if (!mCorrectStateTimer.isRunning()) {
-		changeToNormalState();
-	    }
-
-	case MotionEvent.ACTION_CANCEL:
-	    break;
-
 	}
 	return true;
     }
@@ -284,7 +291,7 @@ public class Buzzer extends RelativeLayout {
 	this.mAllowUserChangeColor = mAllowChangeColor;
     }
 
-    public void freeze(boolean b) {
+    public void disable(boolean b) {
 	if (b) {
 	    mBackground.setImageResource(R.drawable.buzzerdownup_gray);
 	} else {
@@ -293,8 +300,12 @@ public class Buzzer extends RelativeLayout {
 
     }
 
-    public void showGuessState(Correctness correctness) {
+    public void freeze(boolean b) {
+	mFreezed = b;
+    }
 
+    public void showGuessState(Correctness correctness) {
+	Log.v("tag", correctness.toString());
 	int colorImage;
 	switch (correctness) {
 	case correct:
@@ -310,21 +321,21 @@ public class Buzzer extends RelativeLayout {
 	}
 
 	mBackground.setImageResource(colorImage);
+	freeze(true);
+	mStateTimer.setOnTimerListener(new OnTimerListener() {
 
-	if (correctness == Correctness.correct) {
-	    mCorrectStateTimer.setOnTimerListener(new OnTimerListener() {
-
-		@Override
-		public void onTimer() {
-		    changeToNormalState();
-		}
-	    });
-	    mCorrectStateTimer.start();
-	}
+	    @Override
+	    public void onTimer() {
+		changeToNormalState();
+	    }
+	});
+	mStateTimer.start();
 
     }
 
     public void changeToNormalState() {
 	mBackground.setImageResource(R.drawable.buzzerupdown);
+	invalidate();
+	freeze(false);
     }
 }

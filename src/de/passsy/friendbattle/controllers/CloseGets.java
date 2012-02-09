@@ -74,6 +74,7 @@ public class CloseGets extends PointProvider {
 		}
 	    }
 	    Collections.sort(orderedKeys);
+	    // TODO IndexOutOfBoundException
 	    Player player = mSortedGuesses.get(orderedKeys.get(0));
 	    player.getBuzzer().showGuessState(Correctness.correct);
 	    player.setPoints(player.getPoints() + 1);

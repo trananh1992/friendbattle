@@ -33,7 +33,27 @@ public abstract class MiniGame extends RelativeLayout {
      * 
      */
     public enum Correctness {
-	correct, incorrect, toolate, tooearly, unclear;
+	/**
+	 * absolute correct answer
+	 */
+	correct,
+	/**
+	 * absolute incorrect answer
+	 */
+	incorrect,
+	/**
+	 * someone else answers correct a time before
+	 */
+	toolate,
+	/**
+	 * noone can answer at the moment
+	 */
+	tooearly,
+	/**
+	 * the correctness can't be calculated. But it will be set later an the
+	 * answertime will be saved
+	 */
+	unclear;
     }
 
     /**
@@ -180,7 +200,6 @@ public abstract class MiniGame extends RelativeLayout {
      */
     public void start() {
 	showIntroductions(HOWTO_TIME);
-
 	startGame();
     };
 
@@ -210,14 +229,29 @@ public abstract class MiniGame extends RelativeLayout {
 	}
     }
 
+    /**
+     * sets the listener that will be notified if the ne game should start
+     * 
+     * @param l
+     */
     public void setOnNextGameListener(final OnNextGameListener l) {
 	mNextGameListener = l;
     }
 
+    /**
+     * returns the listener for the nextGame
+     * 
+     * @return listener for the next game
+     */
     public OnNextGameListener getOnNextGameListener() {
 	return mNextGameListener;
     }
 
+    /**
+     * returns the discription how the user can get a point
+     * 
+     * @return a simple String
+     */
     abstract public CharSequence getDescription();
 
 }

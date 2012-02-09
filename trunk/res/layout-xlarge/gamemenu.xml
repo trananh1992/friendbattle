@@ -2,13 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:friendbattle="http://schemas.android.com/apk/res/de.passsy.friendbattle"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical" >
+	android:layout_height="fill_parent" >
 
 	<LinearLayout
 		android:id="@+id/topbuzzer"
 		android:layout_width="match_parent"
-		android:layout_height="100dp"
+		android:layout_height="200dp"
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true" >
 
@@ -17,72 +16,80 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			friendbattle:flipped="true" />
+			friendbattle:flipped="true" >
+		</de.passsy.friendbattle.controls.Buzzer>
 
 		<de.passsy.friendbattle.controls.Buzzer
 			android:id="@+id/buzzer3"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			friendbattle:flipped="true" />
+			friendbattle:flipped="true" >
+		</de.passsy.friendbattle.controls.Buzzer>
 
 		<de.passsy.friendbattle.controls.Buzzer
 			android:id="@+id/buzzer5"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			friendbattle:flipped="true" />
+			friendbattle:flipped="true" >
+		</de.passsy.friendbattle.controls.Buzzer>
 	</LinearLayout>
 
-	<de.passsy.friendbattle.controls.TextViewFlipped
-		android:id="@+id/top_txt"
-		android:layout_width="wrap_content"
+	<SeekBar
+		android:id="@+id/playerSeek"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
 		android:layout_below="@+id/topbuzzer"
-		friendbattle:flipped="true"
-		android:text="TextViewFlipped" />
+		android:layout_centerHorizontal="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:layout_marginTop="78dp"
+		android:max="4"
+		android:progress="0" />
 
-	<FrameLayout
-		android:id="@+id/gamemodule"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_above="@+id/bot_txt"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/top_txt" >
-	</FrameLayout>
-
-	<de.passsy.friendbattle.controls.TextViewFlipped
-		android:id="@+id/bot_txt"
+	<Button
+		android:id="@+id/startgame"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_above="@+id/botbuzzer"
-		android:text="TextViewFlipped" />
+		android:layout_centerHorizontal="true"
+		android:text="Start Game" />
 
 	<LinearLayout
 		android:id="@+id/botbuzzer"
 		android:layout_width="wrap_content"
-		android:layout_height="100dp"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentLeft="true" >
+		android:layout_height="200dp"
+		android:layout_alignParentBottom="true" >
 
 		<de.passsy.friendbattle.controls.Buzzer
 			android:id="@+id/buzzer0"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1" />
+			android:layout_weight="1" >
+		</de.passsy.friendbattle.controls.Buzzer>
 
 		<de.passsy.friendbattle.controls.Buzzer
 			android:id="@+id/buzzer2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1" />
+			android:layout_weight="1" >
+		</de.passsy.friendbattle.controls.Buzzer>
 
 		<de.passsy.friendbattle.controls.Buzzer
 			android:id="@+id/buzzer4"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1" />
+			android:layout_weight="1" >
+		</de.passsy.friendbattle.controls.Buzzer>
 	</LinearLayout>
+
+	<TextView
+		android:id="@+id/players_txt"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/playerSeek"
+		android:layout_below="@+id/playerSeek"
+		android:text="Ein Spiel mit 2 Spielern starten" />
 
 </RelativeLayout>

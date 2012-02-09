@@ -26,11 +26,6 @@ public class Screen_Winner extends RelativeLayout {
 	mRestartListener = restartListener;
     }
 
-    public Screen_Winner() {
-	super(FriendBattle.getCurrentActivityContext());
-	init(FriendBattle.getCurrentActivityContext());
-    }
-
     public Screen_Winner(final Context context) {
 	super(context);
 	init(context);

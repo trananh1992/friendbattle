@@ -46,6 +46,8 @@ public class GoodTimer {
 	    stop();
 	}
 
+	mTimer = new Timer();
+
 	if (mTimeout <= 0) {
 	    throw new IllegalArgumentException("timeout can't be 0 or below");
 	}

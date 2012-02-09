@@ -32,7 +32,7 @@ public class FriendBattleGame extends MultiTouchActivity {
     private FrameLayout mGameModule;
     private MiniGame mCurrentGame;
 
-    private final Screen_Winner mWinnerScreen = new Screen_Winner();
+    private Screen_Winner mWinnerScreen;
 
     private GameCycle mGameCycle;
 
@@ -46,6 +46,7 @@ public class FriendBattleGame extends MultiTouchActivity {
 	super.onCreate(savedInstanceState);
 	FriendBattle.setCurrentActivity(this);
 	setContentView(R.layout.friendbattle);
+	mWinnerScreen = new Screen_Winner(this);
 	findViews();
 	readIntent();
 	createListeners();
@@ -108,7 +109,7 @@ public class FriendBattleGame extends MultiTouchActivity {
 	    break;
 
 	case unclear:
-	    player.getBuzzer().freeze(true);
+	    player.getBuzzer().disable(true);
 	    break;
 
 	case tooearly:
@@ -122,6 +123,7 @@ public class FriendBattleGame extends MultiTouchActivity {
     }
 
     private void findViews() {
+
 	// find Buzzers
 	for (int i = 0; i < MAX_PLAYERS; i++) {
 	    final String buzzerID = "buzzer" + i;

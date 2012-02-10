@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import android.util.Log;
 import de.passsy.friendbattle.data.Player;
 import de.passsy.friendbattle.games.MiniGame;
 import de.passsy.friendbattle.games.MiniGame.Correctness;
@@ -15,37 +14,51 @@ public class CloseGets extends PointProvider {
 
     public CloseGets(MiniGame miniGame) {
 	super(miniGame);
-	// TODO Auto-generated constructor stub
     }
 
     private GoodTimer mTimer;
     private HashMap<Long, Player> mGuesses = new HashMap<Long, Player>();
-    private HashMap<Long, Player> mSortedGuesses = new HashMap<Long, Player>();
-    private int mDelta = 500;
+    private HashMap<Long, Player> mGuessesDistance = new HashMap<Long, Player>();
+    private ArrayList<Long> mOrder = new ArrayList<Long>();
+    private ArrayList<Player> mPlayerClicked = new ArrayList<Player>();
+    private boolean guessable = true;
+    /**
+     * time before and after the correctness is set and the answers are not
+     * false but rather too late
+     */
+    private static int DELTA = 500;
 
+    /**
+     * currentMillis when the correctness was set
+     */
     private long mCorrectTime;
 
     @Override
     public Correctness evalCorrectness(Boolean gameCorrectness, Player player) {
 	super.evalCorrectness(gameCorrectness, player);
-	mGuesses.put(System.currentTimeMillis(), player);
-	return Correctness.unclear;
+
+	if (!mPlayerClicked.contains(player) && guessable) {
+	    mGuesses.put(System.currentTimeMillis(), player);
+	    return Correctness.unclear;
+	}
+	return Correctness.tooearly;
     }
 
     @Override
     public void setCorrectness(boolean correctness) {
 	super.setCorrectness(correctness);
+	// if correctness will be set to true
 	if (correctness) {
 	    mCorrectTime = System.currentTimeMillis();
-	    mTimer = new GoodTimer(mDelta, false);
+	    mTimer = new GoodTimer(DELTA, false);
 	    mTimer.start();
 	    mTimer.setOnTimerListener(new OnTimerListener() {
 
 		@Override
 		public void onTimer() {
+		    guessable = false;
 		    dealPoints();
 		    showResults();
-
 		}
 
 	    });
@@ -54,35 +67,40 @@ public class CloseGets extends PointProvider {
     }
 
     private void dealPoints() {
-	Log.v("tag", "dealPoints");
+	// if any person answers
 	if (mGuesses.size() > 0) {
-	    ArrayList<Long> orderedKeys = new ArrayList<Long>(mGuesses.keySet());
-	    Collections.sort(orderedKeys);
-	    for (int i = 0; i < orderedKeys.size(); i++) {
-		long key = (orderedKeys.get(i) - mCorrectTime);
-		mSortedGuesses.put(key, mGuesses.get(orderedKeys.get(i)));
+
+	    // mSortedGuesses is sorted.
+	    // the key value will be the the millis from guess to mCorrectTime
+	    for (long key : mGuesses.keySet()) {
+		long distance = key - mCorrectTime;
+		mGuessesDistance.put(Math.abs(distance), mGuesses.get(key));
 	    }
-	    orderedKeys = new ArrayList<Long>(mSortedGuesses.keySet());
-	    for (int i = 0; i < orderedKeys.size(); i++) {
-		Player player = mSortedGuesses.get(orderedKeys.get(i));
-		if (Math.abs(orderedKeys.get(i)) > mDelta) {
-		    orderedKeys.remove(orderedKeys.get(i));
+
+	    mOrder = new ArrayList<Long>(mGuessesDistance.keySet());
+	    Collections.sort(mOrder);
+
+	    for (long time : mOrder) {
+		Player player = mGuessesDistance.get(time);
+		if (time > DELTA) {
 		    player.getBuzzer().showGuessState(Correctness.incorrect);
 		    player.setPoints(player.getPoints() - 1);
 		} else {
 		    player.getBuzzer().showGuessState(Correctness.toolate);
 		}
 	    }
-	    Collections.sort(orderedKeys);
-	    // TODO IndexOutOfBoundException
-	    Player player = mSortedGuesses.get(orderedKeys.get(0));
-	    player.getBuzzer().showGuessState(Correctness.correct);
-	    player.setPoints(player.getPoints() + 1);
+	    Player winner = mGuessesDistance.get(mOrder.get(0));
+	    if (mOrder.get(0) < DELTA) {
+		winner.getBuzzer().showGuessState(Correctness.correct);
+		winner.setPoints(winner.getPoints() + 1);
+	    }
+	} else {
+	    // TODO if guesses are 0?
 	}
     }
 
     public void setDelta(int mDelta) {
-	this.mDelta = mDelta;
+	this.DELTA = mDelta;
     }
 
 }

@@ -322,15 +322,16 @@ public class Buzzer extends RelativeLayout {
 
 	mBackground.setImageResource(colorImage);
 	freeze(true);
-	mStateTimer.setOnTimerListener(new OnTimerListener() {
+	if (correctness != Correctness.unclear) {
+	    mStateTimer.setOnTimerListener(new OnTimerListener() {
 
-	    @Override
-	    public void onTimer() {
-		changeToNormalState();
-	    }
-	});
-	mStateTimer.start();
-
+		@Override
+		public void onTimer() {
+		    changeToNormalState();
+		}
+	    });
+	    mStateTimer.start();
+	}
     }
 
     public void changeToNormalState() {

@@ -9,6 +9,7 @@ import de.passsy.friendbattle.games.MiniGame;
 import de.passsy.friendbattle.games.MiniGame.Correctness;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
+import de.passsy.friendbattle.utility.GoodTimer.Repeat;
 
 public class CloseGets extends PointProvider {
 
@@ -50,7 +51,7 @@ public class CloseGets extends PointProvider {
 	// if correctness will be set to true
 	if (correctness) {
 	    mCorrectTime = System.currentTimeMillis();
-	    mTimer = new GoodTimer(DELTA, false);
+	    mTimer = new GoodTimer(DELTA, Repeat.No);
 	    mTimer.start();
 	    mTimer.setOnTimerListener(new OnTimerListener() {
 
@@ -101,6 +102,12 @@ public class CloseGets extends PointProvider {
 
     public void setDelta(int mDelta) {
 	this.DELTA = mDelta;
+    }
+
+    @Override
+    public void showResults() {
+	// TODO Auto-generated method stub
+
     }
 
 }

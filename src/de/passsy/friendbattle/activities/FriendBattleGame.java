@@ -186,7 +186,10 @@ public class FriendBattleGame extends MultiTouchActivity {
 
 	    @Override
 	    public void onEnd() {
+		mGameCycle = null;
+
 		showGameResults();
+		System.gc();
 	    }
 	});
 	mGameCycle.setOnNewGameListener(new OnNewGameListener() {

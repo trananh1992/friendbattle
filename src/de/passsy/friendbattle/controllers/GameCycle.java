@@ -7,12 +7,11 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import de.passsy.friendbattle.games.ClickWhenWhite;
 import de.passsy.friendbattle.games.GuessWhen;
-import de.passsy.friendbattle.games.MathGame;
 import de.passsy.friendbattle.games.MiniGame;
 import de.passsy.friendbattle.games.MiniGame.OnNextGameListener;
 import de.passsy.friendbattle.games.NoGame;
+import de.passsy.friendbattle.games.QuoteGame;
 
 public class GameCycle {
 
@@ -35,15 +34,6 @@ public class GameCycle {
 
     private int mCurrentRounds = 0;
 
-    public MiniGame getCurrentGame() {
-	if (mCurrentGame != null) {
-	    return mCurrentGame;
-	} else {
-	    return new NoGame(mContext);
-	}
-
-    }
-
     private final FrameLayout mRootLayout;
 
     private OnEndListener mEndListener;
@@ -60,31 +50,43 @@ public class GameCycle {
 	loadGames();
     }
 
+    public MiniGame getCurrentGame() {
+	if (mCurrentGame != null) {
+	    return mCurrentGame;
+	} else {
+	    return new NoGame(mContext);
+	}
+
+    }
+
     public void start() {
 	final Class<? extends MiniGame> nextGame = getNextGame();
+
 	if (nextGame == null) {
 	    end();
 	    showWinner();
 	    return;
 	}
+	mRootLayout.removeAllViews();
 	try {
 	    // Creates a new Instance of the next Game an passes the Context as
 	    // parameter
 	    mCurrentGame = nextGame.getConstructor(Context.class).newInstance(
 		    mContext);
+
 	} catch (final Exception e) {
+
 	    Log.e("FriendBattle", "ClassNotFound");
 	    e.printStackTrace();// Game isn't correct
 	}
 	mCurrentGame.setOnNextGameListener(new OnNextGameListener() {
-
 	    @Override
 	    public void onNextGame() {
 		start();
 	    }
 	});
 	// add MiniGame to Screen
-	mRootLayout.removeAllViews();
+
 	mRootLayout.addView(mCurrentGame);
 	// starts the MiniGame
 	final CharSequence name = mCurrentGame.getClass().getName();
@@ -138,10 +140,10 @@ public class GameCycle {
     }
 
     private void loadGames() {
-
-	mMiniGames.add(MathGame.class);
+	mMiniGames.add(QuoteGame.class);
+	// mMiniGames.add(MathGame.class);
 	mMiniGames.add(GuessWhen.class);
-	mMiniGames.add(ClickWhenWhite.class);
+	// mMiniGames.add(ClickWhenWhite.class);
 
     }
 

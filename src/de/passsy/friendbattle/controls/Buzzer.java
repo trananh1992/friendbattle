@@ -20,6 +20,7 @@ import de.passsy.friendbattle.data.Player;
 import de.passsy.friendbattle.games.MiniGame.Correctness;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
+import de.passsy.friendbattle.utility.GoodTimer.Repeat;
 
 public class Buzzer extends RelativeLayout {
 
@@ -41,7 +42,7 @@ public class Buzzer extends RelativeLayout {
     private Boolean mAllowUserChangeColor = true;
 
     private int mPreviousY;
-    private GoodTimer mStateTimer = new GoodTimer(BUZZER_FREEZE_TIME, false);
+    private GoodTimer mStateTimer = new GoodTimer(BUZZER_FREEZE_TIME, Repeat.No);
 
     private boolean mFreezed = false;
 

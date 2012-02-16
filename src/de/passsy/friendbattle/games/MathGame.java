@@ -4,6 +4,7 @@ import android.content.Context;
 import de.passsy.friendbattle.screenlayouts.Screen_TextViewsCenter;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
+import de.passsy.friendbattle.utility.Tools;
 
 public class MathGame extends MiniGame {
 
@@ -20,7 +21,7 @@ public class MathGame extends MiniGame {
 	@Override
 	public void onTimer() {
 	    boolean trueFalse = true;
-	    if (getRandomNum() < 80) {
+	    if (Tools.getRandomNum(0, 100) < 80) {
 		trueFalse = false;
 	    }
 	    setCorrectness(trueFalse);
@@ -43,7 +44,7 @@ public class MathGame extends MiniGame {
     @Override
     public void startGame() {
 	boolean trueFalse = true;
-	if (getRandomNum() < 80) {
+	if (Tools.getRandomNum(0, 100) < 80) {
 	    trueFalse = false;
 	}
 	setCorrectness(trueFalse);
@@ -101,14 +102,14 @@ public class MathGame extends MiniGame {
 
 	String output;
 	int operandCount = 2 + (int) (Math.random() * 3);
-	int trueResult = getRandomNum();
+	int trueResult = Tools.getRandomNum(0, 100);
 	int nextOperand;
 
 	output = String.valueOf(trueResult);
 
 	for (int i = 1; i < operandCount; i++) {
-	    nextOperand = getRandomNum();
-	    if (getRandomNum() < 50) {
+	    nextOperand = Tools.getRandomNum(0, 100);
+	    if (Tools.getRandomNum(0, 100) < 50) {
 		output += " + " + String.valueOf(nextOperand);
 		trueResult += nextOperand;
 	    } else {
@@ -119,19 +120,15 @@ public class MathGame extends MiniGame {
 
 	output += " = ";
 	if (!trueFalse) {
-	    if (getRandomNum() < 50) {
-		trueResult += getRandomNum();
+	    if (Tools.getRandomNum(0, 100) < 50) {
+		trueResult += Tools.getRandomNum(0, 100);
 	    } else {
-		trueResult -= getRandomNum();
+		trueResult -= Tools.getRandomNum(0, 100);
 	    }
 	}
 	output += String.valueOf(trueResult);
 
 	mTextViews.setText(output);
 
-    }
-
-    private int getRandomNum() {
-	return ((int) (Math.random() * 100));
     }
 }

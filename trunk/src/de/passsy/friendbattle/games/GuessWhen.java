@@ -6,6 +6,7 @@ import de.passsy.friendbattle.controllers.CloseGets;
 import de.passsy.friendbattle.screenlayouts.Screen_TextViewsCenter;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
+import de.passsy.friendbattle.utility.GoodTimer.Repeat;
 
 public class GuessWhen extends MiniGame {
 
@@ -51,7 +52,7 @@ public class GuessWhen extends MiniGame {
     public void startGame() {
 	final int time = (int) Math.round((Math.random() * 1000)) + 500;
 	((CloseGets) mCurrentPointprovider).setDelta(time);
-	timer = new GoodTimer(time, true);
+	timer = new GoodTimer(time, Repeat.Yes);
 	timer.setOnTimerListener(onTimerListener);
 	timer.start();
     }
@@ -79,6 +80,12 @@ public class GuessWhen extends MiniGame {
 	    showStats();
 	    timer.stop();
 	}
+    }
+
+    @Override
+    public void stopGame() {
+	timer.stop();
+
     }
 
 }

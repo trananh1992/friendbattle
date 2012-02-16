@@ -4,6 +4,7 @@ import android.content.Context;
 import de.passsy.friendbattle.screenlayouts.Screen_TextViewsCenter;
 import de.passsy.friendbattle.utility.GoodTimer;
 import de.passsy.friendbattle.utility.GoodTimer.OnTimerListener;
+import de.passsy.friendbattle.utility.GoodTimer.Repeat;
 import de.passsy.friendbattle.utility.Tools;
 
 public class MathGame extends MiniGame {
@@ -37,7 +38,7 @@ public class MathGame extends MiniGame {
 	mTextViews.setTextSize(7);
 	mTextViews.setText("?");
 
-	timer = new GoodTimer(time, true);
+	timer = new GoodTimer(time, Repeat.Yes);
 	timer.setOnTimerListener(onTimerListener);
     }
 
@@ -129,6 +130,12 @@ public class MathGame extends MiniGame {
 	output += String.valueOf(trueResult);
 
 	mTextViews.setText(output);
+
+    }
+
+    @Override
+    public void stopGame() {
+	timer.stop();
 
     }
 }

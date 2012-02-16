@@ -57,4 +57,9 @@ public class ClickWhenWhite extends MiniGame {
 	return "Click if the color is white";
     }
 
+    @Override
+    public void stopGame() {
+
+    }
+
 }

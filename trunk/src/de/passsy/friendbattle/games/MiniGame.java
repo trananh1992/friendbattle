@@ -90,7 +90,7 @@ public abstract class MiniGame extends RelativeLayout {
     /**
      * holds the current PointProvider
      */
-    public PointProvider mCurrentPointprovider = new FirstGets(this);
+    protected PointProvider mCurrentPointprovider = new FirstGets(this);
 
     /**
      * @return true if the Game is solved
@@ -215,6 +215,13 @@ public abstract class MiniGame extends RelativeLayout {
      * starts the Game
      */
     abstract public void startGame();
+
+    /**
+     * stops the Game
+     * 
+     * please stopp all timers
+     */
+    abstract public void stopGame();
 
     /**
      * shows the introduction at the beginning of every Game

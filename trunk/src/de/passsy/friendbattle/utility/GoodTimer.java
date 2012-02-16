@@ -22,7 +22,11 @@ public class GoodTimer {
 	}
     };
 
-    private boolean mRepeat = false;
+    public static enum Repeat {
+	Yes, No;
+    }
+
+    private Repeat mRepeat = Repeat.No;
 
     private final int mDelay = 0;
 
@@ -34,7 +38,7 @@ public class GoodTimer {
 
     private boolean mRunning;
 
-    public GoodTimer(final int timeout, final boolean repeat) {
+    public GoodTimer(final int timeout, final Repeat repeat) {
 
 	mRepeat = repeat;
 	mTimeout = timeout;
@@ -52,7 +56,7 @@ public class GoodTimer {
 	    throw new IllegalArgumentException("timeout can't be 0 or below");
 	}
 
-	if (mRepeat) {
+	if (mRepeat == Repeat.Yes) {
 
 	    try {
 		mTimer.schedule(new TimerTask() {

@@ -16,6 +16,7 @@ public class FirstGets extends PointProvider {
     @Override
     public Correctness evalCorrectness(final Boolean gameCorrectness,
 	    final Player player) {
+	super.evalCorrectness(gameCorrectness, player);
 	Correctness result = Correctness.incorrect;
 
 	if (mMiniGame.getPrepare()) {
@@ -48,6 +49,12 @@ public class FirstGets extends PointProvider {
 	}
 
 	return result;
+
+    }
+
+    @Override
+    public void showResults() {
+	// TODO Auto-generated method stub
 
     }
 

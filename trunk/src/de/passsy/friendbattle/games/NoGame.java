@@ -29,4 +29,10 @@ public class NoGame extends MiniGame {
 	return "";
     }
 
+    @Override
+    public void stopGame() {
+	// TODO Auto-generated method stub
+
+    }
+
 }
